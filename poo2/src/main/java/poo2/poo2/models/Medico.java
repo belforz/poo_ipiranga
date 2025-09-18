@@ -5,6 +5,8 @@ public class Medico {
     private String telefone;
     private String especialidade;
     private String senha;
+    // associação: um médico pode ter várias consultas (agregação)
+    private java.util.List<Consulta> consultas = new java.util.ArrayList<>();
 
     public Medico() {}
 
@@ -41,6 +43,12 @@ public class Medico {
         System.out.println("CRM: " + crm);
         System.out.println("Telefone: " + telefone);
         System.out.println("Especialidade: " + especialidade);
+        if (!consultas.isEmpty()) {
+            System.out.println("Consultas do médico:");
+            for (Consulta c : consultas) {
+                System.out.println(" - " + c.getData() + " " + c.getHora() + " (" + (c.getMotivo()==null?"":c.getMotivo()) + ")");
+            }
+        }
     }
 
 
@@ -54,4 +62,6 @@ public class Medico {
     public void setEspecialidade(String especialidade) { try { if (especialidade==null) throw new IllegalArgumentException("Parâmetro inválido"); this.especialidade = especialidade; } catch (Exception e) { this.especialidade = ""; System.out.println("Ocorreu uma exceção – Valores padrões definidos"); } }
     public String getSenha() { return senha; }
     public void setSenha(String senha) { try { if (senha==null) throw new IllegalArgumentException("Parâmetro inválido"); this.senha = senha; } catch (Exception e) { this.senha = ""; System.out.println("Ocorreu uma exceção – Valores padrões definidos"); } }
+    public void adicionarConsulta(Consulta consulta) { if (consulta != null && !consultas.contains(consulta)) consultas.add(consulta); }
+    public void removerConsulta(Consulta consulta) { consultas.remove(consulta); }
 }

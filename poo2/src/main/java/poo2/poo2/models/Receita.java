@@ -17,6 +17,8 @@ public class Receita {
             this.consulta = consulta;
             this.data = data;
             this.descritivo = descritivo;
+            // associar composição: vincular receita à consulta
+            if (this.consulta != null) this.consulta.adicionarReceita(this);
         } catch (Exception e) {
             this.consulta = null;
             this.data = "";
@@ -41,4 +43,8 @@ public class Receita {
         if (consulta != null) System.out.println("Consulta em: " + consulta.getData() + " " + consulta.getHora());
         System.out.println("Descritivo: " + descritivo);
     }
+
+    public Consulta getConsulta() { return consulta; }
+    public String getData() { return data; }
+    public String getDescritivo() { return descritivo; }
 }

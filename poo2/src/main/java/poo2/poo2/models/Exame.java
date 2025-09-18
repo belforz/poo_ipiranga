@@ -12,6 +12,7 @@ public class Exame {
             this.consulta = consulta;
             this.data = data;
             this.descritivo = descritivo;
+            if (this.consulta != null) this.consulta.adicionarExame(this);
         } catch (Exception e) {
             this.consulta = null;
             this.data = "";

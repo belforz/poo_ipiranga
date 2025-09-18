@@ -8,6 +8,9 @@ public class Consulta {
     private String motivo;
     private String historico;
     private boolean realizada;
+    // composição: uma consulta pode ter uma receita e exames associados (composição)
+    private Receita receita;
+    private java.util.List<Exame> exames = new java.util.ArrayList<>();
 
     public Consulta() {
         this.data = "";
@@ -29,6 +32,9 @@ public class Consulta {
             this.motivo = motivo;
             this.historico = historico;
             this.realizada = false;
+            // registrar agregações
+            if (this.medico != null) this.medico.adicionarConsulta(this);
+            if (this.paciente != null) this.paciente.adicionarConsulta(this);
         } catch (Exception e) {
             this.data = "";
             this.hora = "";
@@ -67,6 +73,20 @@ public class Consulta {
         this.historico = novoHistorico;
         System.out.println("Consulta atualizada: " + novoMotivo);
     }
+
+    // composição: criar/associar receita à consulta
+    public void adicionarReceita(Receita receita) {
+        if (receita != null) this.receita = receita;
+    }
+
+    public Receita getReceita() { return receita; }
+
+    // composição: gerenciar exames
+    public void adicionarExame(Exame exame) {
+        if (exame != null && !exames.contains(exame)) exames.add(exame);
+    }
+
+    public java.util.List<Exame> getExames() { return exames; }
 
     public void mostrar() {
         System.out.println("--- Consulta ---");

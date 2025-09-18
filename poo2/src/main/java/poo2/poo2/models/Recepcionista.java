@@ -5,6 +5,8 @@ public class Recepcionista {
     private String cpf;
     private String telefone;
     private String senha;
+    // agregação: recepcionista pode gerenciar várias agendas
+    private java.util.List<Agenda> agendas = new java.util.ArrayList<>();
 
     public Recepcionista() {
         this.nome = "";
@@ -43,7 +45,16 @@ public class Recepcionista {
         System.out.println("Nome: " + nome);
         System.out.println("CPF: " + cpf);
         System.out.println("Telefone: " + telefone);
+        if (!agendas.isEmpty()) {
+            System.out.println("Agendas sob responsabilidade:");
+            for (Agenda a : agendas) {
+                System.out.println(" - " + a.getData() + " " + a.getHora());
+            }
+        }
     }
+
+    public void adicionarAgenda(Agenda agenda) { if (agenda != null && !agendas.contains(agenda)) agendas.add(agenda); }
+    public void removerAgenda(Agenda agenda) { agendas.remove(agenda); }
 
     public String getNome() {
         return nome;

@@ -6,6 +6,8 @@ public class Paciente {
     private String telefone;
     private String genero;
     private int idade;
+    // associação: um paciente pode ter várias consultas (agregação)
+    private java.util.List<Consulta> consultas = new java.util.ArrayList<>();
 
     public Paciente() {
         this.nome = "";
@@ -51,6 +53,22 @@ public class Paciente {
         System.out.println("Telefone: " + telefone);
         System.out.println("Gênero: " + genero);
         System.out.println("Idade: " + idade);
+        if (!consultas.isEmpty()) {
+            System.out.println("Consultas do paciente:");
+            for (Consulta c : consultas) {
+                System.out.println(" - " + c.getData() + " " + c.getHora() + " (" + (c.getMotivo()==null?"":c.getMotivo()) + ")");
+            }
+        }
+    }
+
+    public void adicionarConsulta(Consulta consulta) {
+        if (consulta != null && !consultas.contains(consulta)) {
+            consultas.add(consulta);
+        }
+    }
+
+    public void removerConsulta(Consulta consulta) {
+        consultas.remove(consulta);
     }
 
     public String getNome() {
