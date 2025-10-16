@@ -1,58 +1,49 @@
 package poo2.poo2.models;
 
-public class Paciente {
-    private String nome;
+public class Paciente extends Pessoa {
     private String cpf;
-    private String telefone;
     private String genero;
     private int idade;
     // associação: um paciente pode ter várias consultas (agregação)
     private java.util.List<Consulta> consultas = new java.util.ArrayList<>();
 
-    public Paciente() {
-        this.nome = "";
-        this.cpf = "";
-        this.telefone = "";
-        this.genero = "";
-        this.idade = 0;
-    }
+    public Paciente() { super(); this.cpf = ""; this.genero = ""; this.idade = 0; }
 
-    public Paciente(String nome, String cpf, String telefone, String genero, int idade) {
+    public Paciente(int codigo, String nome, String cpf, String telefone, String genero, int idade) {
+        super(codigo, nome, telefone);
         try {
-            if (nome == null || cpf == null || telefone == null || genero == null) {
-                throw new IllegalArgumentException("Parâmetro inválido");
-            }
-
-            this.nome = nome;
+            if (cpf == null || genero == null) throw new IllegalArgumentException("Parâmetro inválido");
             this.cpf = cpf;
-            this.telefone = telefone;
             this.genero = genero;
             this.idade = idade;
         } catch (Exception e) {
-            this.nome = "";
             this.cpf = "";
-            this.telefone = "";
             this.genero = "";
             this.idade = 0;
-            System.out.println("Ocorreu uma exceção - Valores padrões definidos");
+            System.out.println("Ocorreu uma exceção – Valores padrões definidos");
         }
     }
 
+    
+    public Paciente(String nome, String cpf, String telefone, String genero, int idade) {
+        this(0, nome, cpf, telefone, genero, idade);
+    }
+
     public void cadastrar() {
-        System.out.println("Cadastrando paciente: " + nome);
+        System.out.println("Cadastrando paciente: " + getNome());
     }
 
     public void consultar() {
-        System.out.println("Consultando paciente: " + nome);
+        System.out.println("Consultando paciente: " + getNome());
     }
 
+    @Override
     public void mostrar() {
-        System.out.println("--- Paciente ---");
-        System.out.println("Nome: " + nome);
-        System.out.println("CPF: " + cpf);
-        System.out.println("Telefone: " + telefone);
-        System.out.println("Gênero: " + genero);
-        System.out.println("Idade: " + idade);
+    System.out.println("--- Paciente ---");
+    super.mostrar();
+    System.out.println("CPF: " + cpf);
+    System.out.println("Gênero: " + genero);
+    System.out.println("Idade: " + idade);
         if (!consultas.isEmpty()) {
             System.out.println("Consultas do paciente:");
             for (Consulta c : consultas) {
@@ -71,20 +62,6 @@ public class Paciente {
         consultas.remove(consulta);
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        try {
-            if (nome == null) throw new IllegalArgumentException("Parâmetro inválido");
-            this.nome = nome;
-        } catch (Exception e) {
-            this.nome = "";
-            System.out.println("Ocorreu uma exceção – Valores padrões definidos");
-        }
-    }
-
     public String getCpf() {
         return cpf;
     }
@@ -99,21 +76,6 @@ public class Paciente {
         }
         
 
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        try {
-            if (telefone == null) throw new IllegalArgumentException("Parâmetro inválido");
-            this.telefone = telefone;
-        } catch (Exception e) {
-            this.telefone = "";
-            System.out.println("Ocorreu uma exceção – Valores padrões definidos");
-        }
-        
     }
 
     public String getGenero() {

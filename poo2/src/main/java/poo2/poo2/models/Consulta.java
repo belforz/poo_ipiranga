@@ -1,6 +1,6 @@
 package poo2.poo2.models;
 
-public class Consulta {
+public class Consulta implements AcaoClinica {
     private String data;
     private String hora;
     private Medico medico;
@@ -53,6 +53,12 @@ public class Consulta {
         System.out.println("Consulta marcada para " + data + " " + hora);
     }
 
+    // Sobrecarga simples para permitir já definir motivo ao marcar
+    public void marcar(String data, String hora, String motivo) {
+        marcar(data, hora);
+        this.motivo = motivo;
+    }
+
     public void cancelar() {
         System.out.println("Consulta cancelada em " + data + " " + hora);
         this.data = null;
@@ -66,6 +72,20 @@ public class Consulta {
     public void realizar() {
         this.realizada = true;
         System.out.println("Consulta realizada em " + data + " " + hora);
+    }
+
+    // Polimorfismo: implementar AcaoClinica
+    @Override
+    public void processar() {
+        realizar();
+    }
+
+    @Override
+    public String resumo() {
+        String pacienteNome = (paciente != null) ? paciente.getNome() : "(sem paciente)";
+        String medicoNome = (medico != null) ? medico.getNome() : "(sem médico)";
+        String estado = realizada ? "realizada" : "marcada";
+        return "Consulta (" + data + " " + hora + ") motivo: " + motivo + " entre " + pacienteNome + " e " + medicoNome + " - " + estado;
     }
 
     public void atualizar(String novoMotivo, String novoHistorico) {

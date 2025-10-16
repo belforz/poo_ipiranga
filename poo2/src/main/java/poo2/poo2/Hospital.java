@@ -12,26 +12,48 @@ public class Hospital {
     public static void main(String[] args) {
 
         try {
-       
-        Paciente paciente = new Paciente("João Silva", "12345678900", "(11)99999-0000", "M", 30);
-        Medico medico = new Medico("Dra. Ana", "CRM12345", "(11)3333-4444", "Cardiologia", "senha123");
-        Recepcionista recepcionista = new Recepcionista("Larissa", "98765432100", "(11)2222-3333", "senha456");
 
-        Agenda agenda = new Agenda("2025-08-24", "10:00", medico, paciente);
-        Consulta consulta = new Consulta("2025-08-24", "10:00", medico, paciente, "Dor no peito", "Sem histórico");
-        Receita receita = new Receita(consulta, "2025-08-24", "Dipirona 500mg - 1 comprimido a cada 8h");
-        Exame exame = new Exame(consulta, "2025-08-25", "Hemograma completo");
+            Paciente paciente = new Paciente("João Silva", "12345678900", "(11)99999-0000", "M", 30);
+            Medico medico = new Medico("Dra. Ana", "CRM12345", "(11)3333-4444", "Cardiologia", "senha123");
+            Recepcionista recepcionista = new Recepcionista("Larissa", "98765432100", "(11)2222-3333", "senha456");
 
-        paciente.mostrar();
-        medico.mostrar();
-        recepcionista.mostrar();
-        agenda.mostrar();
-        consulta.mostrar();
-        receita.mostrar();
-        exame.mostrar();
-       
-    } catch (Exception e) {
-        System.out.println("Erro ao executar o sistema do hospital: " + e.getMessage());
+            paciente.setCodigo(1);
+            medico.setCodigo(100);
+            recepcionista.setCodigo(200);
+
+            Medico outroMedico = new Medico(101, "Dr. Bruno", "CRM54321", "(11)4444-5555", "Clínico Geral", "senha789");
+
+            Agenda agenda = new Agenda("2025-08-24", "10:00", medico, paciente);
+            Consulta consulta = new Consulta("2025-08-24", "10:00", medico, paciente, "Dor no peito", "Sem histórico");
+            Receita receita = new Receita(consulta, "2025-08-24", "Dipirona 500mg - 1 comprimido a cada 8h");
+            Exame exame = new Exame(consulta, "2025-08-25", "Hemograma completo");
+
+            paciente.mostrar();
+            medico.mostrar();
+            outroMedico.mostrar();
+            recepcionista.mostrar();
+            agenda.mostrar();
+            consulta.mostrar();
+            receita.mostrar();
+            exame.mostrar();
+
+            // Demonstração de polimorfismo: lista de ações clínicas
+            java.util.List<poo2.poo2.models.AcaoClinica> acoes = new java.util.ArrayList<>();
+            acoes.add(consulta);
+            acoes.add(receita);
+            acoes.add(exame);
+            acoes.add(medico);
+            acoes.add(recepcionista);
+
+            System.out.println("\n--- Processando ações clínicas (polimórfico) ---");
+            for (poo2.poo2.models.AcaoClinica acao : acoes) {
+                acao.processar();
+                System.out.println(acao.resumo());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao executar o sistema do hospital: " + e.getMessage());
+        }
+
     }
-
-}}
+}

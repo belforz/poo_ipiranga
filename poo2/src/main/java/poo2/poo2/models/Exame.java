@@ -1,5 +1,5 @@
 package poo2.poo2.models;
-public class Exame {
+public class Exame implements AcaoClinica {
     private Consulta consulta;
     private String data;
     private String descritivo;
@@ -35,6 +35,19 @@ public class Exame {
         System.out.println("Data: " + data);
         if (consulta != null) System.out.println("Consulta: " + consulta.getData() + " " + consulta.getHora());
         System.out.println("Descritivo: " + descritivo);
+    }
+
+    // Polimorfismo: AcaoClinica
+    @Override
+    public void processar() {
+        solicitar(descritivo == null ? "" : descritivo);
+    }
+
+    @Override
+    public String resumo() {
+        String medico = (consulta != null && consulta.getMedico() != null) ? consulta.getMedico().getCrm() : "(sem médico)";
+        String paciente = (consulta != null && consulta.getPaciente() != null) ? consulta.getPaciente().getNome() : "(sem paciente)";
+        return "Exame solicitado por Médico [" + medico + "] para Paciente " + paciente + ": " + (descritivo == null ? "" : descritivo) + " em " + (data == null ? "(sem data)" : data);
     }
 
     public Consulta getConsulta() { return consulta; }

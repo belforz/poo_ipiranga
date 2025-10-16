@@ -1,50 +1,76 @@
 package poo2.poo2.models;
 
-public class Recepcionista {
-    private String nome;
+public class Recepcionista extends Funcionario implements AcaoClinica {
     private String cpf;
-    private String telefone;
-    private String senha;
     // agregação: recepcionista pode gerenciar várias agendas
     private java.util.List<Agenda> agendas = new java.util.ArrayList<>();
 
-    public Recepcionista() {
-        this.nome = "";
-        this.cpf = "";
-        this.telefone = "";
-        this.senha = "";
-    }
+    public Recepcionista() { super(); this.cpf = ""; }
 
-    public Recepcionista(String nome, String cpf, String telefone, String senha) {
+    public Recepcionista(int codigo, String nome, String cpf, String telefone, String senha) {
+        super(codigo, nome, telefone, senha);
         try {
-            if (nome == null || cpf == null || telefone == null || senha == null) {
-                throw new IllegalArgumentException("Parâmetro inválido");
-            }
-
-            this.nome = nome;
+            if (cpf == null) throw new IllegalArgumentException("Parâmetro inválido");
             this.cpf = cpf;
-            this.telefone = telefone;
-            this.senha = senha;
         } catch (Exception e) {
-            this.nome = "Erro de Exceção";
-            this.cpf = "Erro de Exceção";
-            this.telefone = "Erro de Exceção";
-            this.senha = "Erro de Exceção";
-            System.out.println("Ocorreu uma exceção - Valores padrões definidos");
+            this.cpf = "";
+            System.out.println("Ocorreu uma exceção – Valores padrões definidos");
         }
     }
 
+  
+    public Recepcionista(String nome, String cpf, String telefone, String senha) {
+        this(0, nome, cpf, telefone, senha);
+    }
+
     public boolean acessar(String senha) {
-        boolean ok = this.senha != null && this.senha.equals(senha);
-        System.out.println("Acesso recepcionista (" + nome + "): " + (ok ? "OK" : "NEGADO"));
+        boolean ok = getSenha() != null && getSenha().equals(senha);
+        System.out.println("Acesso recepcionista (" + getNome() + "): " + (ok ? "OK" : "NEGADO"));
         return ok;
     }
 
+    // Polimorfismo: AcaoClinica
+    @Override
+    public void processar() {
+        // marca uma consulta de exemplo se houver agendas; sem parâmetros usamos um placeholder
+        if (agendas.isEmpty()) {
+            System.out.println("Sem agendas para processar");
+            return;
+        }
+        Agenda a = agendas.get(0);
+        if (a != null && a.getMedico()!=null && a.getPaciente()!=null) {
+            marcar(a.getData(), a.getHora(), a.getMedico(), a.getPaciente(), "(agendada via processar)");
+        }
+    }
+
+    @Override
+    public String resumo() {
+        return "Consulta marcada por Recepcionista [cpf: " + cpf + "]";
+    }
+
+    
+    public Consulta marcar(String data, String hora, Medico medico, Paciente paciente, String motivo) {
+        Consulta c = new Consulta(data, hora, medico, paciente, motivo, "");
+        System.out.println("Recepcionista marcou consulta para " + data + " " + hora + ".");
+        return c;
+    }
+
+    public void cadastrarPaciente(Paciente paciente) {
+        if (paciente != null) {
+            paciente.cadastrar();
+            System.out.println("Recepcionista cadastrou paciente: " + paciente.getNome());
+        }
+    }
+
+    public void consultar() {
+        System.out.println("Consultando recepcionista: " + getNome());
+    }
+
+    @Override
     public void mostrar() {
         System.out.println("--- Recepcionista ---");
-        System.out.println("Nome: " + nome);
+        super.mostrar();
         System.out.println("CPF: " + cpf);
-        System.out.println("Telefone: " + telefone);
         if (!agendas.isEmpty()) {
             System.out.println("Agendas sob responsabilidade:");
             for (Agenda a : agendas) {
@@ -55,21 +81,6 @@ public class Recepcionista {
 
     public void adicionarAgenda(Agenda agenda) { if (agenda != null && !agendas.contains(agenda)) agendas.add(agenda); }
     public void removerAgenda(Agenda agenda) { agendas.remove(agenda); }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        try {
-            if (nome == null) throw new IllegalArgumentException("Parâmetro inválido");
-            this.nome = nome;
-        } catch (Exception e) {
-            this.nome = "";
-            System.out.println("Ocorreu uma exceção – Valores padrões definidos");
-        }
-        
-    }
 
     public String getCpf() {
         return cpf;
@@ -85,31 +96,5 @@ public class Recepcionista {
         }
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        try {
-            if (telefone == null) throw new IllegalArgumentException("Parâmetro inválido");
-            this.telefone = telefone;
-        } catch (Exception e) {
-            this.telefone = "";
-            System.out.println("Ocorreu uma exceção – Valores padrões definidos");
-        }
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        try {
-            if (senha == null) throw new IllegalArgumentException("Parâmetro inválido");
-            this.senha = senha;
-        } catch (Exception e) {
-            this.senha = "";
-            System.out.println("Ocorreu uma exceção – Valores padrões definidos");
-        }
-    }
+    
 }

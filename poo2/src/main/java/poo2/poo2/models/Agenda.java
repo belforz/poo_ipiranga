@@ -46,7 +46,7 @@ public class Agenda {
             System.out.println("Paciente: " + paciente.getNome());
     }
 
-    // getters/setters
+    
     public String getData() {
         return data;
 

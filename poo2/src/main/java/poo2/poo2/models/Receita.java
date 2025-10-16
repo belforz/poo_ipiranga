@@ -1,6 +1,6 @@
 package poo2.poo2.models;
 
-public class Receita {
+public class Receita implements AcaoClinica {
     private Consulta consulta;
     private String data;
     private String descritivo;
@@ -33,6 +33,12 @@ public class Receita {
         System.out.println("Prescrição: " + texto);
     }
 
+    // Alias para corresponder ao diagrama (preescrever com dois 'e').
+    // Mantemos "prescrever" existente para não quebrar código já escrito.
+    public void preescrever(String texto) {
+        prescrever(texto);
+    }
+
     public void consultar() {
         System.out.println("Consultando receita de " + data + ": " + descritivo);
     }
@@ -42,6 +48,19 @@ public class Receita {
         System.out.println("Data: " + data);
         if (consulta != null) System.out.println("Consulta em: " + consulta.getData() + " " + consulta.getHora());
         System.out.println("Descritivo: " + descritivo);
+    }
+
+    // Polimorfismo: AcaoClinica
+    @Override
+    public void processar() {
+        preescrever(descritivo == null ? "" : descritivo);
+    }
+
+    @Override
+    public String resumo() {
+        String medico = (consulta != null && consulta.getMedico() != null) ? consulta.getMedico().getCrm() : "(sem médico)";
+        String paciente = (consulta != null && consulta.getPaciente() != null) ? consulta.getPaciente().getNome() : "(sem paciente)";
+        return "Receita emitida por Médico [" + medico + "] para Paciente " + paciente + ": " + (descritivo == null ? "" : descritivo);
     }
 
     public Consulta getConsulta() { return consulta; }
