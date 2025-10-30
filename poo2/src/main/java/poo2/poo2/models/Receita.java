@@ -1,6 +1,6 @@
 package poo2.poo2.models;
 
-public class Receita implements AcaoClinica {
+public class Receita implements AcaoClinica, Mostravel {
     private Consulta consulta;
     private String data;
     private String descritivo;
@@ -43,6 +43,7 @@ public class Receita implements AcaoClinica {
         System.out.println("Consultando receita de " + data + ": " + descritivo);
     }
 
+    @Override
     public void mostrar() {
         System.out.println("--- Receita ---");
         System.out.println("Data: " + data);

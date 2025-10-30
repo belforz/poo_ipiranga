@@ -1,6 +1,6 @@
 package poo2.poo2.models;
 
-public class Recepcionista extends Funcionario implements AcaoClinica {
+public class Recepcionista extends Funcionario implements AcaoClinica, Mostravel {
     private String cpf;
     // agregação: recepcionista pode gerenciar várias agendas
     private java.util.List<Agenda> agendas = new java.util.ArrayList<>();

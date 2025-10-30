@@ -1,5 +1,5 @@
 package poo2.poo2.models;
-public class Exame implements AcaoClinica {
+public class Exame implements AcaoClinica, Mostravel {
     private Consulta consulta;
     private String data;
     private String descritivo;
@@ -30,6 +30,7 @@ public class Exame implements AcaoClinica {
         System.out.println("Consultando exame: " + descritivo + " em " + data);
     }
 
+    @Override
     public void mostrar() {
         System.out.println("--- Exame ---");
         System.out.println("Data: " + data);

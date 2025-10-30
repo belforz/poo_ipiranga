@@ -1,5 +1,5 @@
 package poo2.poo2.models;
-public class Medico extends Funcionario implements AcaoClinica {
+public class Medico extends Funcionario implements AcaoClinica, Mostravel {
     private String crm;
     private String especialidade;
     // associação: um médico pode ter várias consultas (agregação)
